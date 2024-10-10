@@ -1,0 +1,20 @@
+documentation:
+  version: "1.0.0"
+  title: "SWAPI API"
+  description: "API para interactuar con datos de Star Wars"
+  contact:
+    name: "Carlos Urcia"
+    email: "carlosuv92@gmail.com"
+  models:
+    - name: "People"
+      description: "Representa a una persona"
+      contentType: "application/json"
+      schema: ${file(./models/people.json)}
+    - name: "Planet"
+      description: "Representa un planeta"
+      contentType: "application/json"
+      schema: ${file(./models/planet.json)}
+    - name: "PutDocumentResponse"
+      description: PUT Document response model (external reference example)
+      contentType: application/json
+      schema: ${file(models/PutDocumentResponse.json)}

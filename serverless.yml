@@ -1,0 +1,63 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: felipeurciaorg
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: starwars-api
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: reto-indra
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:CreateTable
+        - dynamodb:DeleteTable
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:Scan
+        - dynamodb:Query
+      Resource: arn:aws:dynamodb:us-east-1:148761643916:table/Items
+    - Effect: Allow
+      Action:
+        - translate:TranslateText
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: "*"
+
+# Add the routes you want to expose
+functions:
+  ${file(src/adapters/http/routes.yml)}
+
+# Add the documentation you want to expose
+custom:
+  documentation: ${file(config/doc.yml):documentation}
+
+
+# Add the database you want to use
+resources:
+  Resources:
+    ItemsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Items
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+plugins:
+  - serverless-offline
+  - serverless-openapi-documenter
+

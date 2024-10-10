@@ -1,0 +1,82 @@
+createPlanet:
+  handler: src/adapters/http/planetController.createPlanetController
+  events:
+    - http:
+        path: planets
+        method: post
+        cors: true
+        documentation:
+          summary: "Create a new planet"
+          description: "Create a new planet"
+          requestModels:
+            "application/json": PutDocumentResponset"
+          methodResponses:
+           - statusCode: "200"
+             responseBody:
+               description: "The created planet"
+             responseModels:
+               "application/json": PutDocumentResponse
+           - statusCode: "404"
+             responseBody:
+               description: "Planet not found"
+           - statusCode: "500"
+             responseBody:
+               description: "Unexpected error"
+getPlanets:
+  handler: src/adapters/http/planetController.getPlanetController
+  events:
+    - http:
+        path: planets/{id}
+        method: get
+        cors: true
+        documentation:
+          summary: "Get a planet"
+          description: "Retrieve a planet by id"
+          pathParams:
+            - name: id
+              description: The planet id
+              schema:
+                type: string
+          requestModels:
+            "application/json": PutDocumentResponset"
+          methodResponses:
+           - statusCode: "200"
+             responseBody:
+               description: "The planet"
+             responseModels:
+               "application/json": PutDocumentResponse
+           - statusCode: "404"
+             responseBody:
+               description: "Planet not found"
+           - statusCode: "500"
+             responseBody:
+               description: "Unexpected error"
+getPeople:
+  handler: src/adapters/http/peopleController.getPeopleController
+  events:
+    - http:
+        path: people/{id}
+        method: get
+        cors: true
+        documentation:
+          summary: Get a person
+          description: Get a person
+          pathParams:
+            - name: id
+              description: The planet id
+              schema:
+                type: string
+          requestModels:
+            "application/json": PutDocumentResponse
+          methodResponses:
+           - statusCode: "200"
+             responseBody:
+               description: "The person"
+             responseModels:
+               "application/json": PutDocumentResponse
+           - statusCode: "404"
+             responseBody:
+               description: "Person not found"
+           - statusCode: "500"
+             responseBody:
+               description: "Unexpected error"
